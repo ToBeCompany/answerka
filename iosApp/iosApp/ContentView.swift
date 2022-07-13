@@ -2,10 +2,9 @@ import SwiftUI
 import shared
 
 struct ContentView: View {
-    let greet = String(Calc().pow(a: 10))
-
+  
 	var body: some View {
-		Text(greet)
+		Text("ывф")
 	}
 }
 
