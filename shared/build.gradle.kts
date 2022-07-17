@@ -3,6 +3,9 @@ plugins {
     id("com.android.library")
     id("io.realm.kotlin")
 }
+object Versions {
+    const val koin = "3.2.0"
+}
 
 kotlin {
     android()
@@ -22,6 +25,7 @@ kotlin {
             dependencies {
                 implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core:1.6.3")
                 implementation("io.realm.kotlin:library-base:1.0.1")
+                implementation("io.insert-koin:koin-core:${Versions.koin}")
             }
         }
         val commonTest by getting {
@@ -29,7 +33,11 @@ kotlin {
                 implementation(kotlin("test"))
             }
         }
-        val androidMain by getting
+        val androidMain by getting {
+            dependencies {
+                implementation( "io.insert-koin:koin-android:${Versions.koin}")
+            }
+        }
         val androidTest by getting
         val iosX64Main by getting
         val iosArm64Main by getting

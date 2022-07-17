@@ -3,6 +3,7 @@
     package="com.arbonik.answerka.android">
 
     <application
+        android:name="com.arbonik.answerka.AnswerkaApplication"
         android:allowBackup="false"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">

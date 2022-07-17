@@ -2,7 +2,7 @@ package com.arbonik.answerka
 
 import android.content.res.Resources
 
-actual class Database {
+class TaskRepositoryAndroid {
     private val NO_MORE_DATA = "Данные кончились"
 
     private val charset = Charsets.UTF_8 //Charset.forName("windows-1251")
@@ -16,7 +16,7 @@ actual class Database {
     var universalTasks = mutableListOf<String>()
     var targetTasks = mutableListOf<String>()
 
-    actual fun getSoloTasks(): String {
+    fun getSoloTasks(): String {
         val lists = listOf(soloTasks, universalTasks)
             .filter {
                 it.isNotEmpty()
@@ -29,7 +29,7 @@ actual class Database {
         } else return NO_MORE_DATA
     }
 
-    actual fun getGroupTasks(): String {
+    fun getGroupTasks(): String {
         val lists = listOf(groupTasks, universalTasks)
             .filter {
                 it.isNotEmpty()
