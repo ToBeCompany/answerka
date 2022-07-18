@@ -3,6 +3,7 @@ plugins {
     id("com.android.library")
     id("io.realm.kotlin")
 }
+
 object Versions {
     const val koin = "3.2.0"
 }

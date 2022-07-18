@@ -3,6 +3,8 @@ plugins {
     kotlin("android")
 }
 
+val compose_version = "1.1.1"
+
 android {
     compileSdk = 32
     defaultConfig {
@@ -17,10 +19,28 @@ android {
             isMinifyEnabled = false
         }
     }
+    buildFeatures {
+        compose = true
+    }
+
+    composeOptions {
+        kotlinCompilerExtensionVersion = compose_version
+    }
+
+    kotlinOptions {
+        jvmTarget = "1.8"
+    }
 }
 
 dependencies {
     implementation(project(":shared"))
+
+    implementation("androidx.compose.ui:ui:$compose_version")
+    implementation("androidx.compose.material:material:$compose_version")
+    implementation("androidx.compose.ui:ui-tooling:$compose_version")
+    implementation ("androidx.compose.ui:ui-tooling-preview:$compose_version")
+    implementation ("androidx.activity:activity-compose:1.6.0-alpha05")
+
     implementation("com.google.android.material:material:1.4.0")
     implementation("androidx.appcompat:appcompat:1.3.1")
     implementation("androidx.constraintlayout:constraintlayout:2.1.0")
