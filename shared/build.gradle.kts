@@ -24,7 +24,7 @@ kotlin {
     sourceSets {
         val commonMain by getting {
             dependencies {
-                implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core:1.6.3")
+                implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core:1.6.4")
                 implementation("io.realm.kotlin:library-base:1.0.1")
                 implementation("io.insert-koin:koin-core:${Versions.koin}")
             }
@@ -36,7 +36,8 @@ kotlin {
         }
         val androidMain by getting {
             dependencies {
-                implementation( "io.insert-koin:koin-android:${Versions.koin}")
+                api( "io.insert-koin:koin-android:${Versions.koin}")
+                implementation("com.google.code.gson:gson:2.9.1")
             }
         }
         val androidTest by getting

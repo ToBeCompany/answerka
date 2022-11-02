@@ -4,7 +4,7 @@ import io.realm.kotlin.types.ObjectId
 import io.realm.kotlin.types.RealmObject
 import io.realm.kotlin.types.annotations.PrimaryKey
 
-class AskDb (
+class TaskDb(
     var text: String = "",
     var is18: Boolean = false
 ) : RealmObject {
