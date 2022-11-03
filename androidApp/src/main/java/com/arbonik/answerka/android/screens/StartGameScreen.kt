@@ -45,7 +45,8 @@ fun StartGameScreen(
             isError = text.isEmpty()
         )
         Button(onClick = {
-                gameViewModel.addPlayer(Player(text))
+            gameViewModel.addPlayer(Player(text))
+            text = ""
         }) {
             Text(text = stringResource(R.string.add_player))
         }

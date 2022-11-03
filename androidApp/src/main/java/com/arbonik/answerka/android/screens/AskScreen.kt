@@ -28,7 +28,7 @@ fun AskScreen(
         gameViewModel.pauseGame()
     }
 
-    val currentTask : Ask? by gameViewModel.currentAsk
+    val currentAsk : Ask? by gameViewModel.currentAsk
         .collectAsState()
 
     val players: List<SelectablePlayer> by gameViewModel.selectedPlayers
@@ -38,7 +38,7 @@ fun AskScreen(
         Text(
             text = stringResource(R.string.select_players)
         )
-        currentTask?.let {
+        currentAsk?.let {
             AskView(ask = it)
         }
         LazyRow {
@@ -86,3 +86,12 @@ fun AskView(
         text = ask.text
     )
 }
+
+// добавить настройки игры
+// + 18
+// доступен ли платный контент
+
+// добавить стратегии выборки данных:
+// 1 фильтрацию 18+
+// 2 фильтрация платного контента
+// 3 учет повторений
