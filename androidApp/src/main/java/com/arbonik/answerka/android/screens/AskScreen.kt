@@ -1,5 +1,6 @@
 package com.arbonik.answerka.android.screens
 
+import androidx.activity.compose.BackHandler
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.foundation.lazy.items
@@ -22,6 +23,10 @@ import com.arbonik.answerka.viewmodels.GameViewModel
 fun AskScreen(
     gameViewModel: GameViewModel,
 ) {
+
+    BackHandler {
+        gameViewModel.pauseGame()
+    }
 
     val currentTask : Ask? by gameViewModel.currentAsk
         .collectAsState()

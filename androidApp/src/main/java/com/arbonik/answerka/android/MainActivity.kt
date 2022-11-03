@@ -1,7 +1,6 @@
 package com.arbonik.answerka.android
 
 import android.os.Bundle
-import androidx.activity.addCallback
 import androidx.activity.compose.setContent
 import androidx.appcompat.app.AppCompatActivity
 import androidx.compose.material.AlertDialog
@@ -29,22 +28,6 @@ class MainActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-
-        // навигация приложения зависит от состояния игры
-        onBackPressedDispatcher.addCallback {
-            when (gameViewModel.gameState.value){
-                is GameState.Ask -> {
-                    gameViewModel.pauseGame()
-                }
-                //todo если игра на паузе, то навигация работает по умолчанию
-                GameState.INIT -> {
-                    finish()
-                }
-                is GameState.Task -> {
-                    gameViewModel.nextStep()
-                }
-            }
-        }
 
         setContent {
             val error = gameViewModel.errorMessage.collectAsState(null)

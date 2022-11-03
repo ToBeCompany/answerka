@@ -1,5 +1,6 @@
 package com.arbonik.answerka.android.screens
 
+import androidx.activity.compose.BackHandler
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.foundation.lazy.items
@@ -9,7 +10,6 @@ import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
-import androidx.compose.ui.tooling.preview.Preview
 import com.arbonik.answerka.entity.Player
 import com.arbonik.answerka.entity.SelectablePlayer
 import com.arbonik.answerka.entity.Task
@@ -22,6 +22,10 @@ fun TaskScreen(
     val players : List<SelectablePlayer> by gameViewModel
         .selectedPlayers.collectAsState(listOf())
     val task : Task? by gameViewModel.currentTask.collectAsState()
+
+    BackHandler {
+        gameViewModel.nextStep()
+    }
 
     Column {
         LazyRow {
