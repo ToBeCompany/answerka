@@ -6,6 +6,8 @@ package com.arbonik.answerka.entity
 // Task -> загрузилась задача, игроки выполняют
 sealed class GameState {
     object INIT : GameState()
+
+    object Start: GameState()
     data class Ask(val ask: com.arbonik.answerka.entity.Ask) : GameState()
     data class Task(val Task: com.arbonik.answerka.entity.Task) : GameState()
 }

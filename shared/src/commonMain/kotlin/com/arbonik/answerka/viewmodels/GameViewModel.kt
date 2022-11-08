@@ -58,13 +58,14 @@ class GameViewModel(
 
     fun nextStep(){
         when (_gameState.value){
+            is GameState.INIT -> {}
             is GameState.Ask -> {
                 if (_selectedPlayers.value.isNotEmpty())
                     loadTask()
                 else
                     loadAsk()
             }
-            GameState.INIT -> {
+            GameState.Start -> {
                 if (_players.value.isNotEmpty()){
                     if (_currentAsk.value == null) {
                         loadAsk()
@@ -84,8 +85,11 @@ class GameViewModel(
         }
     }
 
+    fun startGame(){
+        _gameState.value = GameState.Start
+    }
     fun pauseGame(){
-        _gameState.value = GameState.INIT
+        _gameState.value = GameState.Start
     }
 
     fun clearErrorMessage(){

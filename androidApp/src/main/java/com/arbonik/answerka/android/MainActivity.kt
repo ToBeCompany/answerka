@@ -3,10 +3,7 @@ package com.arbonik.answerka.android
 import android.os.Bundle
 import androidx.activity.compose.setContent
 import androidx.appcompat.app.AppCompatActivity
-import androidx.compose.material.AlertDialog
-import androidx.compose.material.Button
-import androidx.compose.material.ButtonDefaults
-import androidx.compose.material.Text
+import androidx.compose.material.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.colorResource
@@ -14,12 +11,12 @@ import androidx.compose.ui.res.stringResource
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
-import com.arbonik.answerka.android.screens.AskScreen
-import com.arbonik.answerka.android.screens.StartGameScreen
-import com.arbonik.answerka.android.screens.TaskScreen
+import com.arbonik.answerka.android.screens.*
 import com.arbonik.answerka.entity.GameState
 import com.arbonik.answerka.viewmodels.GameViewModel
 import org.koin.android.ext.android.inject
+import java.util.*
+import kotlin.concurrent.timerTask
 
 
 class MainActivity : AppCompatActivity() {
@@ -42,8 +39,23 @@ class MainActivity : AppCompatActivity() {
 
             NavHost(
                 navController = navController,
-                startDestination = AnswerkaNavigation.CreateGame.destinationPath
+                startDestination = AnswerkaNavigation.Splash.destinationPath
             ) {
+                composable(AnswerkaNavigation.Splash.destinationPath){
+                    Timer().schedule(timerTask {
+                        runOnUiThread {
+                            navController.navigate(AnswerkaNavigation.Main.destinationPath) {
+                                launchSingleTop = true
+                            }
+                        }
+                    }, 1000)
+                    StartSplashScreen()
+                }
+                composable(AnswerkaNavigation.Main.destinationPath){
+                    MaterialTheme {
+                        MainScreen()
+                    }
+                }
                 composable(AnswerkaNavigation.CreateGame.destinationPath) {
                     StartGameScreen(
                         gameViewModel = gameViewModel
@@ -51,12 +63,12 @@ class MainActivity : AppCompatActivity() {
                 }
                 composable(AnswerkaNavigation.Ask.destinationPath) {
                     AskScreen(
-                        gameViewModel = gameViewModel,
+                        gameViewModel = gameViewModel
                     )
                 }
                 composable(AnswerkaNavigation.Task.destinationPath) {
                     TaskScreen(
-                        gameViewModel = gameViewModel,
+                        gameViewModel = gameViewModel
                     )
                 }
             }
@@ -68,7 +80,7 @@ class MainActivity : AppCompatActivity() {
                         launchSingleTop = true
                     }
                 }
-                GameState.INIT -> {
+                GameState.Start -> {
                     navController.navigate(AnswerkaNavigation.CreateGame.destinationPath){
                         launchSingleTop = true
                     }
@@ -78,6 +90,7 @@ class MainActivity : AppCompatActivity() {
                         launchSingleTop = true
                     }
                 }
+                is GameState.INIT -> {}
             }
         }
     }
