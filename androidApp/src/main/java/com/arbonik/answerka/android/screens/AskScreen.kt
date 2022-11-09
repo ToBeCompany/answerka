@@ -61,6 +61,7 @@ fun AskScreen(
                             launchSingleTop = true
                         }
                 }
+                else ->{}
             }
         }) {
             Text(text = stringResource(R.string.done))

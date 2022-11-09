@@ -10,6 +10,7 @@ sealed class AnswerkaNavigation {
     object Main : AnswerkaNavigation()
     object Payment : AnswerkaNavigation()
     object Settings : AnswerkaNavigation()
+    object Splash : AnswerkaNavigation()
 }
 
 object AnswerkaGraph {

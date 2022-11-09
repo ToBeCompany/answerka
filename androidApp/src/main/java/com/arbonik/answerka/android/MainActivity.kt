@@ -3,10 +3,7 @@ package com.arbonik.answerka.android
 import android.os.Bundle
 import androidx.activity.compose.setContent
 import androidx.appcompat.app.AppCompatActivity
-import androidx.compose.material.AlertDialog
-import androidx.compose.material.Button
-import androidx.compose.material.ButtonDefaults
-import androidx.compose.material.Text
+import androidx.compose.material.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.colorResource
@@ -15,11 +12,9 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import com.arbonik.answerka.android.screens.*
-import com.arbonik.answerka.entity.GameState
 import androidx.navigation.navigation
 import com.arbonik.answerka.android.navigation.AnswerkaGraph
 import com.arbonik.answerka.android.navigation.AnswerkaNavigation
-import com.arbonik.answerka.android.screens.*
 import com.arbonik.answerka.viewmodels.GameViewModel
 import org.koin.android.ext.android.inject
 import java.util.*
@@ -46,12 +41,22 @@ class MainActivity : AppCompatActivity() {
 
             NavHost(
                 navController = navController,
-                startDestination = AnswerkaNavigation.Main.destinationPath
-            ){
+                startDestination = AnswerkaNavigation.Splash.destinationPath
+            ) {
+                composable(AnswerkaNavigation.Splash.destinationPath) {
+                    Timer().schedule(timerTask {
+                        runOnUiThread {
+                            navController.navigate(AnswerkaNavigation.Main.destinationPath) {
+                                navController.popBackStack(route = AnswerkaNavigation.Splash.destinationPath, true)
+                            }
+                        }
+                    }, 1000)
+                    StartSplashScreen()
+                }
                 composable(AnswerkaNavigation.Main.destinationPath) {
-                    MainScreen(
-                        navController = navController
-                    )
+                    MaterialTheme {
+                        MainScreen(navController)
+                    }
                 }
                 composable(AnswerkaNavigation.Settings.destinationPath) {
                     SettingsScreen()
@@ -64,53 +69,23 @@ class MainActivity : AppCompatActivity() {
                     route = AnswerkaGraph.GAME,
                     startDestination = AnswerkaNavigation.CreateGame.destinationPath
                 ) {
-                    composable(route = AnswerkaNavigation.CreateGame.destinationPath) {
-                        StartGameScreen(gameViewModel = gameViewModel, navController)
-                startDestination = AnswerkaNavigation.Splash.destinationPath
-            ) {
-                composable(AnswerkaNavigation.Splash.destinationPath){
-                    Timer().schedule(timerTask {
-                        runOnUiThread {
-                            navController.navigate(AnswerkaNavigation.Main.destinationPath) {
-                                launchSingleTop = true
-                            }
-                        }
-                    }, 1000)
-                    StartSplashScreen()
-                }
-                composable(AnswerkaNavigation.Main.destinationPath){
-                    MaterialTheme {
-                        MainScreen()
+                    composable(AnswerkaNavigation.CreateGame.destinationPath) {
+                        StartGameScreen(
+                            gameViewModel = gameViewModel,
+                            navController
+                        )
                     }
-                }
-                composable(AnswerkaNavigation.CreateGame.destinationPath) {
-                    StartGameScreen(
-                        gameViewModel = gameViewModel
-                    )
-                }
-                composable(AnswerkaNavigation.Ask.destinationPath) {
-                    AskScreen(
-                        gameViewModel = gameViewModel
-                    )
-                }
-                composable(AnswerkaNavigation.Task.destinationPath) {
-                    TaskScreen(
-                        gameViewModel = gameViewModel
-                    )
-                }
-            }
-
-            val gameState: GameState by gameViewModel.gameState.collectAsState()
-            when (gameState) {
-                is GameState.Ask -> {
-                    navController.navigate(AnswerkaNavigation.Ask.destinationPath) {
-                        launchSingleTop = true
+                    composable(AnswerkaNavigation.Ask.destinationPath) {
+                        AskScreen(
+                            gameViewModel = gameViewModel,
+                            navController
+                        )
                     }
-                    composable(route = AnswerkaNavigation.Ask.destinationPath){
-                        AskScreen(gameViewModel = gameViewModel, navController)
-                    }
-                    composable(route = AnswerkaNavigation.Task.destinationPath){
-                        TaskScreen(gameViewModel = gameViewModel, navController)
+                    composable(AnswerkaNavigation.Task.destinationPath) {
+                        TaskScreen(
+                            gameViewModel = gameViewModel,
+                            navController
+                        )
                     }
                 }
             }
