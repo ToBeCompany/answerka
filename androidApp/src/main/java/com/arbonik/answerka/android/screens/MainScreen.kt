@@ -55,7 +55,7 @@ fun MainButton(startIcon: Int, text: String, function: () -> Unit) {
                 contentDescription = "Информация о приложении",
                 modifier = Modifier.size(32.dp)
             )
-            Spacer(modifier = Modifier.size(ButtonDefaults.IconSpacing))
+            Spacer(modifier = Modifier.size(14.dp))
             Text(text = text, fontSize = 20.sp)
         }
     }
@@ -76,8 +76,6 @@ fun MainScreen(
                 .fillMaxSize()
                 .weight(1.5f)
                 .align(alignment = Alignment.CenterHorizontally)
-
-
         ) {
             Image(
                 alignment = Alignment.CenterStart,
@@ -101,7 +99,6 @@ fun MainScreen(
                     navController.navigate(AnswerkaNavigation.Payment.destinationPath)
                 }
             }
-
         }
     }
 }
