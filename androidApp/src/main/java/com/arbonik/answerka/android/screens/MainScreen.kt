@@ -34,7 +34,7 @@ import com.arbonik.answerka.android.navigation.AnswerkaNavigation
 @Composable
 fun MainButton(startIcon: Int, text: String, function: () -> Unit) {
     OutlinedButton(
-        onClick = { },
+        onClick = function,
         modifier = Modifier
             .padding(vertical = 8.dp)
             .fillMaxWidth()

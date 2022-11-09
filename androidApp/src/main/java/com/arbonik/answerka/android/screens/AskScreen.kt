@@ -13,7 +13,6 @@ import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.res.stringResource
 import androidx.navigation.NavHostController
-import androidx.compose.ui.tooling.preview.Preview
 import com.arbonik.answerka.android.R
 import com.arbonik.answerka.android.navigation.AnswerkaNavigation
 import com.arbonik.answerka.entity.Ask
