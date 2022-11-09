@@ -69,4 +69,5 @@ android {
         minSdk = 23
         targetSdk = 32
     }
+    namespace = "com.arbonik.answerka"
 }

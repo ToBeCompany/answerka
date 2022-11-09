@@ -2,8 +2,6 @@ package com.arbonik.answerka.viewmodels
 
 import com.arbonik.answerka.database.GameRepository
 import com.arbonik.answerka.entity.*
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.Job
 import kotlinx.coroutines.flow.*
 
 
@@ -11,7 +9,7 @@ class GameViewModel(
     private val gameRepository : GameRepository
 ) {
     private val _gameState : MutableStateFlow<GameState> =
-        MutableStateFlow(GameState.INIT)
+        MutableStateFlow(GameState.GamePause)
     val gameState : StateFlow<GameState> = _gameState.asStateFlow()
 
     private val _errorMessage : MutableStateFlow<String?> = MutableStateFlow(null)
@@ -46,6 +44,10 @@ class GameViewModel(
 
     fun removePlayer(player: Player){
         _players.value -= player
+        _selectedPlayers.value -= player
+        if (_players.value.isEmpty()){
+            _gameState.value = GameState.GamePause
+        }
     }
 
     fun changeSelectedPlayer(player: Player){
@@ -58,24 +60,14 @@ class GameViewModel(
 
     fun nextStep(){
         when (_gameState.value){
-            is GameState.INIT -> {}
             is GameState.Ask -> {
                 if (_selectedPlayers.value.isNotEmpty())
                     loadTask()
                 else
                     loadAsk()
             }
-            GameState.Start -> {
-                if (_players.value.isNotEmpty()){
-                    if (_currentAsk.value == null) {
-                        loadAsk()
-                    } else {
-                        // игра просто продолжается без загрузки нового вопроса
-                        _gameState.value = GameState.Ask(_currentAsk.value!!)
-                    }
-                } else {
-                    _errorMessage.tryEmit("Добавьте хотя бы одного ирока")
-                }
+            GameState.GamePause -> {
+                resumeGame()
             }
             is GameState.Task -> {
                 unselectedAllPlayers()
@@ -85,11 +77,21 @@ class GameViewModel(
         }
     }
 
-    fun startGame(){
-        _gameState.value = GameState.Start
+    private fun resumeGame() {
+        if (_players.value.isNotEmpty()) {
+            if (_currentAsk.value == null) {
+                loadAsk()
+            } else {
+                // игра просто продолжается без загрузки нового вопроса
+                _gameState.value = GameState.Ask(_currentAsk.value!!)
+            }
+        } else {
+            _errorMessage.tryEmit("Добавьте хотя бы одного ирока")
+        }
     }
+
     fun pauseGame(){
-        _gameState.value = GameState.Start
+        _gameState.value = GameState.GamePause
     }
 
     fun clearErrorMessage(){
@@ -97,14 +99,14 @@ class GameViewModel(
     }
 
     private fun loadTask(){
-        gameRepository.getTasks().random().let { task ->
+        gameRepository.getTask()?.let { task ->
             _currentTask.value = task
             _gameState.value = GameState.Task(task)
         }
     }
 
     private fun loadAsk(){
-        gameRepository.getAsks().random().let { ask ->
+        gameRepository.getAsk()?.let { ask ->
             _currentAsk.value = ask
             _gameState.value = GameState.Ask(ask)
         }

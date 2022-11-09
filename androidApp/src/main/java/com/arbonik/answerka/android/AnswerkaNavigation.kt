@@ -1,4 +1,3 @@
-package com.arbonik.answerka.android
 
 sealed class AnswerkaNavigation(
     val destinationPath : String
