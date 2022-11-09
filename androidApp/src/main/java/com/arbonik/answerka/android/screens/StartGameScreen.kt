@@ -11,13 +11,14 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Close
 import androidx.compose.runtime.*
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.tooling.preview.Preview
+import androidx.compose.ui.tooling.preview.PreviewParameter
 import androidx.navigation.NavHostController
 import com.arbonik.answerka.android.R
 import com.arbonik.answerka.android.navigation.AnswerkaNavigation
 import com.arbonik.answerka.entity.GameState
 import com.arbonik.answerka.entity.Player
 import com.arbonik.answerka.viewmodels.GameViewModel
-
 
 @Composable
 fun StartGameScreen(

@@ -11,11 +11,20 @@ import com.arbonik.answerka.android.navigation.AnswerkaNavigation
 fun MainScreen(
     navController: NavController
 ) {
-    Column {
-        Button(onClick = {
-            navController.navigate(AnswerkaNavigation.CreateGame.destinationPath)
-        }) {
-            Text(text = "Играть")
+
+    Column(horizontalAlignment = Alignment.CenterHorizontally, modifier = Modifier
+        .background(Color(0xFF212121))
+        .fillMaxWidth()){
+        Box(modifier = Modifier.weight(4f)){
+            Image(painter = painterResource(id = R.drawable.title), contentDescription = "")
+        }
+        Box(modifier = Modifier
+            .weight(1f)
+            .fillMaxWidth(0.8f)) {
+            MainButton(startIcon = R.drawable.ic_play, text = "Играть"){
+                navController.navigate(AnswerkaNavigation.CreateGame.destinationPath)
+
+            }
         }
         Button(onClick = {
             navController.navigate(AnswerkaNavigation.Settings.destinationPath)
@@ -27,5 +36,21 @@ fun MainScreen(
         }) {
             Text(text = "Премиум")
         }
+    }
+}
+
+@Composable
+fun MainButton(startIcon: Int, text: String, onClick : () -> Unit= { }){
+    Button(onClick = onClick, modifier = Modifier.fillMaxWidth()) {
+        Icon(
+            painter = painterResource(startIcon),
+            contentDescription = "Информация о приложении",
+            tint = Color.Red,
+            modifier = Modifier.weight(1f)
+        )
+
+//        Box(modifier = Modifier.weight(4f).align(Alignment.CenterHorizontally)) {
+        Text(text = text)
+//        }
     }
 }
