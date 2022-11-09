@@ -13,6 +13,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.tooling.preview.Preview
 import com.arbonik.answerka.android.R
 import com.arbonik.answerka.entity.Ask
 import com.arbonik.answerka.entity.Player
