@@ -11,14 +11,18 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Close
 import androidx.compose.runtime.*
 import androidx.compose.ui.res.stringResource
+import androidx.navigation.NavHostController
 import com.arbonik.answerka.android.R
+import com.arbonik.answerka.android.navigation.AnswerkaNavigation
+import com.arbonik.answerka.entity.GameState
 import com.arbonik.answerka.entity.Player
 import com.arbonik.answerka.viewmodels.GameViewModel
 
 
 @Composable
 fun StartGameScreen(
-    gameViewModel: GameViewModel
+    gameViewModel: GameViewModel,
+    navController: NavHostController
 ) {
     val players: List<Player> by gameViewModel.players
         .collectAsState()
@@ -51,7 +55,21 @@ fun StartGameScreen(
             Text(text = stringResource(R.string.add_player))
         }
         Button(onClick = {
-            gameViewModel.nextStep()
+            when (gameViewModel.gameState.value) {
+                is GameState.GamePause -> {
+                    gameViewModel.nextStep()
+                    if (gameViewModel.gameState.value is GameState.Ask)
+                        navController.navigate(AnswerkaNavigation.Ask.destinationPath) {
+                            launchSingleTop = true
+                        }
+                }
+                is GameState.Ask -> navController.navigate(AnswerkaNavigation.Ask.destinationPath) {
+                    launchSingleTop = true
+                }
+                is GameState.Task -> navController.navigate(AnswerkaNavigation.Task.destinationPath) {
+                    launchSingleTop = true
+                }
+            }
         }) {
             Text(text = stringResource(R.string.start_game))
         }

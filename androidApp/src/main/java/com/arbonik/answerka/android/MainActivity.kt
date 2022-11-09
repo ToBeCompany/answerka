@@ -14,10 +14,10 @@ import androidx.compose.ui.res.stringResource
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
-import com.arbonik.answerka.android.screens.AskScreen
-import com.arbonik.answerka.android.screens.StartGameScreen
-import com.arbonik.answerka.android.screens.TaskScreen
-import com.arbonik.answerka.entity.GameState
+import androidx.navigation.navigation
+import com.arbonik.answerka.android.navigation.AnswerkaGraph
+import com.arbonik.answerka.android.navigation.AnswerkaNavigation
+import com.arbonik.answerka.android.screens.*
 import com.arbonik.answerka.viewmodels.GameViewModel
 import org.koin.android.ext.android.inject
 
@@ -37,45 +37,37 @@ class MainActivity : AppCompatActivity() {
                     gameViewModel.clearErrorMessage()
                 }
             }
+
             val navController = rememberNavController()
-            navController.enableOnBackPressed(false)
 
             NavHost(
                 navController = navController,
-                startDestination = AnswerkaNavigation.CreateGame.destinationPath
-            ) {
-                composable(AnswerkaNavigation.CreateGame.destinationPath) {
-                    StartGameScreen(
-                        gameViewModel = gameViewModel
+                startDestination = AnswerkaNavigation.Main.destinationPath
+            ){
+                composable(AnswerkaNavigation.Main.destinationPath) {
+                    MainScreen(
+                        navController = navController
                     )
                 }
-                composable(AnswerkaNavigation.Ask.destinationPath) {
-                    AskScreen(
-                        gameViewModel = gameViewModel,
-                    )
+                composable(AnswerkaNavigation.Settings.destinationPath) {
+                    SettingsScreen()
                 }
-                composable(AnswerkaNavigation.Task.destinationPath) {
-                    TaskScreen(
-                        gameViewModel = gameViewModel,
-                    )
+                composable(AnswerkaNavigation.Payment.destinationPath) {
+                    PaymentScreen()
                 }
-            }
 
-            val gameState: GameState by gameViewModel.gameState.collectAsState()
-            when (gameState) {
-                is GameState.Ask -> {
-                    navController.navigate(AnswerkaNavigation.Ask.destinationPath) {
-                        launchSingleTop = true
+                navigation(
+                    route = AnswerkaGraph.GAME,
+                    startDestination = AnswerkaNavigation.CreateGame.destinationPath
+                ) {
+                    composable(route = AnswerkaNavigation.CreateGame.destinationPath) {
+                        StartGameScreen(gameViewModel = gameViewModel, navController)
                     }
-                }
-                GameState.INIT -> {
-                    navController.navigate(AnswerkaNavigation.CreateGame.destinationPath){
-                        launchSingleTop = true
+                    composable(route = AnswerkaNavigation.Ask.destinationPath){
+                        AskScreen(gameViewModel = gameViewModel, navController)
                     }
-                }
-                is GameState.Task -> {
-                    navController.navigate(AnswerkaNavigation.Task.destinationPath) {
-                        launchSingleTop = true
+                    composable(route = AnswerkaNavigation.Task.destinationPath){
+                        TaskScreen(gameViewModel = gameViewModel, navController)
                     }
                 }
             }
@@ -91,11 +83,17 @@ fun AlertDialog(
     AlertDialog(onDismissRequest = {
         onDialogClicked(false)
     },
-        title = { Text(text = stringResource(R.string.alert_title)) },
-        text = { Text(text = message) },
+        title = {
+            Text(text = stringResource(R.string.alert_title))
+        },
+        text = {
+            Text(text = message)
+        },
         confirmButton = {
             Button(
-                colors = ButtonDefaults.buttonColors(backgroundColor = colorResource(id = R.color.colorPrimary)),
+                colors = ButtonDefaults.buttonColors(
+                    backgroundColor = colorResource(id = R.color.colorPrimary)
+                ),
                 onClick = {
                     onDialogClicked(true)
                 },

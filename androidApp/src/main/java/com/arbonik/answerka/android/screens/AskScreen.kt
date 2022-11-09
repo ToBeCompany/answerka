@@ -1,6 +1,5 @@
 package com.arbonik.answerka.android.screens
 
-import androidx.activity.compose.BackHandler
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.foundation.lazy.items
@@ -13,8 +12,11 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.res.stringResource
+import androidx.navigation.NavHostController
 import com.arbonik.answerka.android.R
+import com.arbonik.answerka.android.navigation.AnswerkaNavigation
 import com.arbonik.answerka.entity.Ask
+import com.arbonik.answerka.entity.GameState
 import com.arbonik.answerka.entity.Player
 import com.arbonik.answerka.entity.SelectablePlayer
 import com.arbonik.answerka.viewmodels.GameViewModel
@@ -22,12 +24,8 @@ import com.arbonik.answerka.viewmodels.GameViewModel
 @Composable
 fun AskScreen(
     gameViewModel: GameViewModel,
+    navController: NavHostController,
 ) {
-
-    BackHandler {
-        gameViewModel.pauseGame()
-    }
-
     val currentAsk : Ask? by gameViewModel.currentAsk
         .collectAsState()
 
@@ -52,7 +50,18 @@ fun AskScreen(
             }
         }
         Button(onClick = {
-            gameViewModel.nextStep()
+            when(gameViewModel.gameState.value) {
+                is GameState.Task -> navController.navigate(AnswerkaNavigation.Task.destinationPath){
+                    launchSingleTop = true
+                }
+                is GameState.Ask -> {
+                    gameViewModel.nextStep()
+                    if (gameViewModel.gameState.value is GameState.Task)
+                        navController.navigate(AnswerkaNavigation.Task.destinationPath){
+                            launchSingleTop = true
+                        }
+                }
+            }
         }) {
             Text(text = stringResource(R.string.done))
         }
@@ -86,12 +95,3 @@ fun AskView(
         text = ask.text
     )
 }
-
-// добавить настройки игры
-// + 18
-// доступен ли платный контент
-
-// добавить стратегии выборки данных:
-// 1 фильтрацию 18+
-// 2 фильтрация платного контента
-// 3 учет повторений
