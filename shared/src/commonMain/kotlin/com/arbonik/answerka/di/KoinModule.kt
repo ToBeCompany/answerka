@@ -1,6 +1,7 @@
 package com.arbonik.answerka.di
 
 import com.arbonik.answerka.database.GameRepository
+import com.arbonik.answerka.database.GameRepositoryRealm
 import com.arbonik.answerka.database.RealmDatabase
 import com.arbonik.answerka.viewmodels.GameViewModel
 import org.koin.core.KoinApplication
@@ -22,7 +23,7 @@ fun appModule() = listOf(platformModule, commonModule)
 
 val commonModule = module {
     singleOf(::RealmDatabase)
-    singleOf(::GameRepository)
+    single<GameRepository> { GameRepositoryRealm(get()) }
     singleOf(::GameViewModel)
 }
 
