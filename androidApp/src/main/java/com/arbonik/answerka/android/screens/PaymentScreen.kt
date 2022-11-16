@@ -79,7 +79,7 @@ fun PaymentScreen(
             text = "Доступ предоставляется на 30 дней",
             color = Color.White
         )
-        MainButton(text = stringResource(R.string.buy)) {
+        MainButtonWithIcon(text = stringResource(R.string.buy)) {
             // TODO здесь будет покупка
             // paymentViewModel.generateKey()
         }

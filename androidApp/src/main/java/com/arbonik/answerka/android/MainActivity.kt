@@ -55,17 +55,9 @@ class MainActivity : AppCompatActivity() {
             startDestination = AnswerkaNavigation.Splash.destinationPath
         ) {
             composable(AnswerkaNavigation.Splash.destinationPath) {
-                Timer().schedule(timerTask {
-                    runOnUiThread {
-                        navController.navigate(AnswerkaNavigation.Main.destinationPath) {
-                            navController.popBackStack(
-                                route = AnswerkaNavigation.Splash.destinationPath,
-                                true
-                            )
-                        }
-                    }
-                }, 1000)
-                StartSplashScreen()
+                StartSplashScreen(
+                    navController
+                )
             }
             composable(AnswerkaNavigation.Main.destinationPath) {
                 MaterialTheme {

@@ -32,7 +32,7 @@ import com.arbonik.answerka.android.R
 import com.arbonik.answerka.android.navigation.AnswerkaNavigation
 
 @Composable
-fun MainButtonWithIcon(startIcon: Int, text: String, function: () -> Unit) {
+fun MainButtonWithIcon(startIcon: Int? = null, text: String, function: () -> Unit) {
     OutlinedButton(
         onClick = function,
         modifier = Modifier
