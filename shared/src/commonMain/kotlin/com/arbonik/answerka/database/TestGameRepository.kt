@@ -1,11 +1,10 @@
 package com.arbonik.answerka.database
 
 import com.arbonik.answerka.entity.Ask
-import com.arbonik.answerka.entity.DataSetting
+import com.arbonik.answerka.entity.Category
 import com.arbonik.answerka.entity.Task
 
 class TestGameRepository : GameRepository {
-    override var dataSetting: DataSetting = DataSetting(true, true)
 
     private val tasks = listOf(
         Task("Подпрыгни с вывертом", false),
@@ -18,6 +17,18 @@ class TestGameRepository : GameRepository {
         Ask("Ты пес?", false),
         Ask("Зачем ты дышишь", false),
     )
+
+    override fun loadData(category: Category) {
+
+    }
+
+    override fun taskQuantity(category: Category): Int {
+        return 0
+    }
+
+    override fun askQuantity(category: Category): Int {
+        return 0
+    }
 
     override fun getTask(): Task = tasks.random()
 

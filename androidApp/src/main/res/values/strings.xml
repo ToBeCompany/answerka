@@ -11,4 +11,9 @@
     <string name="player_name">Имя игрока</string>
     <string name="add_player">Добавить игрока</string>
     <string name="start_game">Играть</string>
+    <string name="key">Ключ</string>
+    <string name="key_incorrected">Ключ некорректный</string>
+    <string name="key_ran_out">Действие ключа истекло</string>
+    <string name="enter_key">"Или введите ключ: "</string>
+    <string name="buy">Купить!</string>
 </resources>

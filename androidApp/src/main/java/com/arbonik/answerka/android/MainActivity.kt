@@ -16,6 +16,8 @@ import androidx.navigation.navigation
 import com.arbonik.answerka.android.navigation.AnswerkaGraph
 import com.arbonik.answerka.android.navigation.AnswerkaNavigation
 import com.arbonik.answerka.viewmodels.GameViewModel
+import com.arbonik.answerka.viewmodels.PaymentViewModel
+import com.arbonik.answerka.viewmodels.SettingViewModel
 import org.koin.android.ext.android.inject
 import java.util.*
 import kotlin.concurrent.timerTask
@@ -24,69 +26,83 @@ import kotlin.concurrent.timerTask
 class MainActivity : AppCompatActivity() {
 
     private val gameViewModel: GameViewModel by inject()
+    private val paymentViewModel: PaymentViewModel by inject()
+    private val settingViewModel: SettingViewModel by inject()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
         setContent {
-            val error = gameViewModel.errorMessage.collectAsState(null)
+            //TODO установить тему, чтобы не назначать фон на экранах и другое
+            SetupNavGraph()
+        }
+    }
 
-            if (error.value != null) {
-                AlertDialog(error.value!!) {
-                    gameViewModel.clearErrorMessage()
+    @Composable
+    private fun SetupNavGraph() {
+        val error = gameViewModel.errorMessage.collectAsState(null)
+
+        if (error.value != null) {
+            AlertDialog(error.value!!) {
+                gameViewModel.clearErrorMessage()
+            }
+        }
+
+        val navController = rememberNavController()
+
+        NavHost(
+            navController = navController,
+            startDestination = AnswerkaNavigation.Splash.destinationPath
+        ) {
+            composable(AnswerkaNavigation.Splash.destinationPath) {
+                Timer().schedule(timerTask {
+                    runOnUiThread {
+                        navController.navigate(AnswerkaNavigation.Main.destinationPath) {
+                            navController.popBackStack(
+                                route = AnswerkaNavigation.Splash.destinationPath,
+                                true
+                            )
+                        }
+                    }
+                }, 1000)
+                StartSplashScreen()
+            }
+            composable(AnswerkaNavigation.Main.destinationPath) {
+                MaterialTheme {
+                    MainScreen(navController)
                 }
             }
+            composable(AnswerkaNavigation.Settings.destinationPath) {
+                SettingsScreen(
+                    settingViewModel,
+                    gameViewModel
+                )
+            }
+            composable(AnswerkaNavigation.Payment.destinationPath) {
+                PaymentScreen(paymentViewModel)
+            }
 
-            val navController = rememberNavController()
-
-            NavHost(
-                navController = navController,
-                startDestination = AnswerkaNavigation.Splash.destinationPath
+            navigation(
+                route = AnswerkaGraph.GAME,
+                startDestination = AnswerkaNavigation.CreateGame.destinationPath
             ) {
-                composable(AnswerkaNavigation.Splash.destinationPath) {
-                    Timer().schedule(timerTask {
-                        runOnUiThread {
-                            navController.navigate(AnswerkaNavigation.Main.destinationPath) {
-                                navController.popBackStack(route = AnswerkaNavigation.Splash.destinationPath, true)
-                            }
-                        }
-                    }, 1000)
-                    StartSplashScreen()
+                composable(AnswerkaNavigation.CreateGame.destinationPath) {
+                    StartGameScreen(
+                        gameViewModel = gameViewModel,
+                        navController
+                    )
                 }
-                composable(AnswerkaNavigation.Main.destinationPath) {
-                    MaterialTheme {
-                        MainScreen(navController)
-                    }
+                composable(AnswerkaNavigation.Ask.destinationPath) {
+                    AskScreen(
+                        gameViewModel = gameViewModel,
+                        navController
+                    )
                 }
-                composable(AnswerkaNavigation.Settings.destinationPath) {
-                    SettingsScreen()
-                }
-                composable(AnswerkaNavigation.Payment.destinationPath) {
-                    PaymentScreen()
-                }
-
-                navigation(
-                    route = AnswerkaGraph.GAME,
-                    startDestination = AnswerkaNavigation.CreateGame.destinationPath
-                ) {
-                    composable(AnswerkaNavigation.CreateGame.destinationPath) {
-                        StartGameScreen(
-                            gameViewModel = gameViewModel,
-                            navController
-                        )
-                    }
-                    composable(AnswerkaNavigation.Ask.destinationPath) {
-                        AskScreen(
-                            gameViewModel = gameViewModel,
-                            navController
-                        )
-                    }
-                    composable(AnswerkaNavigation.Task.destinationPath) {
-                        TaskScreen(
-                            gameViewModel = gameViewModel,
-                            navController
-                        )
-                    }
+                composable(AnswerkaNavigation.Task.destinationPath) {
+                    TaskScreen(
+                        gameViewModel = gameViewModel,
+                        navController
+                    )
                 }
             }
         }

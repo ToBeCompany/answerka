@@ -6,8 +6,13 @@ import kotlinx.coroutines.flow.*
 
 
 class GameViewModel(
-    private val gameRepository : GameRepository
+    private val gameRepository : GameRepository,
+    private val settingsRepository: SettingsRepository
 ) {
+    init {
+        reloadData()
+    }
+
     private val _gameState : MutableStateFlow<GameState> =
         MutableStateFlow(GameState.GamePause)
     val gameState : StateFlow<GameState> = _gameState.asStateFlow()
@@ -86,7 +91,7 @@ class GameViewModel(
                 _gameState.value = GameState.Ask(_currentAsk.value!!)
             }
         } else {
-            _errorMessage.tryEmit("Добавьте хотя бы одного ирока")
+            _errorMessage.tryEmit("Добавьте хотя бы одного игрока")
         }
     }
 
@@ -98,10 +103,18 @@ class GameViewModel(
         _errorMessage.value = null
     }
 
+    fun reloadData(){
+        settingsRepository.categories().forEach { category ->
+            gameRepository.loadData(category)
+        }
+    }
+
     private fun loadTask(){
         gameRepository.getTask()?.let { task ->
             _currentTask.value = task
             _gameState.value = GameState.Task(task)
+        } ?: run {
+            _errorMessage.value = "Задания кончились, проверьте настройки"
         }
     }
 
@@ -109,6 +122,8 @@ class GameViewModel(
         gameRepository.getAsk()?.let { ask ->
             _currentAsk.value = ask
             _gameState.value = GameState.Ask(ask)
+        } ?: run {
+            _errorMessage.value = "Вопросы кончились, проверьте настройки"
         }
     }
 
@@ -123,6 +138,5 @@ class GameViewModel(
     private fun unselectedAllPlayers(){
         _selectedPlayers.value = listOf()
     }
-
 }
 

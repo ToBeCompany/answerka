@@ -65,7 +65,6 @@ fun StartGameScreen(
         mutableStateOf(false)
     }
 
-
     if (isAddPlayerAlertShow.value)
         TextRequestAlertDialog(
             message = stringResource(R.string.add_player),
@@ -76,7 +75,7 @@ fun StartGameScreen(
             }
         )
 
-    Column(modifier = Modifier.background(Color.Black)) {
+    Column(modifier = Modifier.background(colorResource(id = R.color.back))) {
         LazyColumn(
             Modifier
                 .padding(top = 10.dp, bottom = 10.dp)
@@ -182,11 +181,13 @@ fun AddPlayerChip(
 private fun StartCreenGamePreview() {
     val playerOne = Player("игроман")
     val playerTwo = Player("травоман")
-    val gameViewModel = GameViewModel(TestGameRepository())
-    gameViewModel.addPlayer(playerOne)
-    gameViewModel.addPlayer(playerTwo)
+//    val gameViewModel = GameViewModel(
+//        TestGameRepository()
+//    )
+//    gameViewModel.addPlayer(playerOne)
+//    gameViewModel.addPlayer(playerTwo)
 
-    StartGameScreen(gameViewModel = gameViewModel, navController = rememberNavController())
+//    StartGameScreen(gameViewModel = gameViewModel, navController = rememberNavController())
 }
 
 
@@ -213,6 +214,7 @@ fun TextRequestAlertDialog(
                 label = { Text(text = stringResource(R.string.player_name)) },
                 isError = text.isEmpty(),
                 modifier = Modifier.focusRequester(FocusRequester()),
+                singleLine = true
             )
         },
         confirmButton = {

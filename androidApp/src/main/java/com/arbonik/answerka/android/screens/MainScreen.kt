@@ -32,7 +32,7 @@ import com.arbonik.answerka.android.R
 import com.arbonik.answerka.android.navigation.AnswerkaNavigation
 
 @Composable
-fun MainButton(startIcon: Int, text: String, function: () -> Unit) {
+fun MainButton(startIcon: Int? = null, text: String, function: () -> Unit) {
     OutlinedButton(
         onClick = function,
         modifier = Modifier
@@ -40,7 +40,7 @@ fun MainButton(startIcon: Int, text: String, function: () -> Unit) {
             .fillMaxWidth()
             .height(68.dp),
         colors = ButtonDefaults.outlinedButtonColors(
-            backgroundColor = Color(0xFF212121),
+            backgroundColor = colorResource(id = R.color.back),
             contentColor = Color.White,
         ),
         border = BorderStroke(3.dp, color = colorResource(id = R.color.teal_200)),
@@ -50,6 +50,7 @@ fun MainButton(startIcon: Int, text: String, function: () -> Unit) {
             verticalAlignment = Alignment.CenterVertically,
             horizontalArrangement = Arrangement.SpaceEvenly
         ){
+            if (startIcon != null)
             Icon(
                 painter = painterResource(startIcon),
                 contentDescription = "Информация о приложении",
@@ -67,7 +68,7 @@ fun MainScreen(
 ) {
     Column(
         horizontalAlignment = Alignment.CenterHorizontally, modifier = Modifier
-            .background(Color(0xFF212121)) // TODO использовать цвет из темы или ресурсов
+            .background(colorResource(id = R.color.back))
             .fillMaxWidth()
     ) {
         Box(
@@ -101,7 +102,6 @@ fun MainScreen(
                     navController.navigate(AnswerkaNavigation.Payment.destinationPath)
                 }
             }
-
         }
     }
 }
