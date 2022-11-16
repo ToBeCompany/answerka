@@ -10,5 +10,6 @@
     <color name="white">#FFFFFFFF</color>
     <color name="green">#FF05EDAB</color>
     <color name="red">#FFEC1C4E</color>
-    <color name="back">#212121</color>
+    <color name="back">#FF212121</color>
+    <color name="chip_grey">#FF333232</color>
 </resources>

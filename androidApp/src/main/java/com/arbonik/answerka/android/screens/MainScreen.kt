@@ -32,7 +32,7 @@ import com.arbonik.answerka.android.R
 import com.arbonik.answerka.android.navigation.AnswerkaNavigation
 
 @Composable
-fun MainButton(startIcon: Int? = null, text: String, function: () -> Unit) {
+fun MainButtonWithIcon(startIcon: Int, text: String, function: () -> Unit) {
     OutlinedButton(
         onClick = function,
         modifier = Modifier
@@ -56,7 +56,31 @@ fun MainButton(startIcon: Int? = null, text: String, function: () -> Unit) {
                 contentDescription = "Информация о приложении",
                 modifier = Modifier.size(32.dp)
             )
-            Spacer(modifier = Modifier.size(ButtonDefaults.IconSpacing))
+            Spacer(modifier = Modifier.size(14.dp))
+            Text(text = text, fontSize = 20.sp)
+        }
+    }
+}
+
+@Composable
+fun MainButton(text: String, color: Int, function: () -> Unit) {
+    OutlinedButton(
+        onClick = function,
+        modifier = Modifier
+            .padding(vertical = 8.dp)
+            .fillMaxWidth()
+            .height(68.dp),
+        colors = ButtonDefaults.outlinedButtonColors(
+            backgroundColor = Color(0xFF212121),
+            contentColor = Color.White,
+        ),
+        border = BorderStroke(3.dp, color = colorResource(color)),
+        shape = RoundedCornerShape(60),
+    ) {
+        Row(
+            verticalAlignment = Alignment.CenterVertically,
+            horizontalArrangement = Arrangement.SpaceEvenly
+        ){
             Text(text = text, fontSize = 20.sp)
         }
     }
@@ -77,8 +101,6 @@ fun MainScreen(
                 .fillMaxSize()
                 .weight(1.5f)
                 .align(alignment = Alignment.CenterHorizontally)
-
-
         ) {
             Image(
                 alignment = Alignment.CenterStart,
@@ -91,14 +113,14 @@ fun MainScreen(
             modifier = Modifier
                 .weight(1f)
                 .fillMaxWidth(0.8f)){
-            Column() {
-                MainButton(startIcon = R.drawable.ic_play, text = "Играть") {
+            Column {
+                MainButtonWithIcon(startIcon = R.drawable.ic_play, text = "Играть") {
                     navController.navigate(AnswerkaNavigation.CreateGame.destinationPath)
                 }
-                MainButton(startIcon = R.drawable.settings, text = "Настройки") {
+                MainButtonWithIcon(startIcon = R.drawable.settings, text = "Настройки") {
                     navController.navigate(AnswerkaNavigation.Settings.destinationPath)
                 }
-                MainButton(startIcon = R.drawable.premium, text = "Премиум") {
+                MainButtonWithIcon(startIcon = R.drawable.premium, text = "Премиум") {
                     navController.navigate(AnswerkaNavigation.Payment.destinationPath)
                 }
             }
