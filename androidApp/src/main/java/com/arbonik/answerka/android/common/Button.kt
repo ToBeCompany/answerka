@@ -21,6 +21,7 @@ import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
 import com.arbonik.answerka.android.R
 
 @Composable
@@ -39,7 +40,7 @@ fun GreenStrokeButton(
                 BorderStroke(2.dp, colorResource(id = R.color.green)),
                 shape = CircleShape
             )
-            .padding(10.dp),
+            .padding(16.dp),
         horizontalArrangement = Arrangement.Center,
         verticalAlignment = Alignment.CenterVertically
     ){
@@ -52,6 +53,7 @@ fun GreenStrokeButton(
         }
         Text(
             text = text,
+            fontSize =18.sp,
             color = Color.White
         )
     }

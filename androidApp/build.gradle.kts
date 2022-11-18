@@ -35,7 +35,8 @@ android {
 
 dependencies {
     implementation(project(":shared"))
-
+    implementation ("androidx.compose.material3:material3:1.0.1")
+    implementation ("androidx.compose.material3:material3-window-size-class:1.0.1")
     implementation("androidx.compose.ui:ui:$compose_version")
     implementation("androidx.compose.material:material:$compose_version")
     implementation("androidx.compose.ui:ui-tooling:$compose_version")

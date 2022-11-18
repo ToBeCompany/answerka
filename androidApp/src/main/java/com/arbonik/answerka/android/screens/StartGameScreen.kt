@@ -33,6 +33,9 @@ import androidx.compose.material.TextFieldDefaults
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Add
 import androidx.compose.material.icons.filled.Close
+import androidx.compose.material.icons.outlined.Person
+import androidx.compose.material3.FloatingActionButton
+import androidx.compose.material3.FloatingActionButtonDefaults.shape
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
@@ -99,10 +102,13 @@ fun StartGameScreen(
         }
         Spacer(modifier = Modifier.weight(1f))
         Row(
-            verticalAlignment = Alignment.CenterVertically
+            verticalAlignment = Alignment.CenterVertically,
+            modifier = Modifier.padding(vertical = 16.dp)
         ) {
             GreenStrokeButton(
-                modifier = Modifier.weight(3f),
+                modifier = Modifier
+                    .weight(3f)
+                    .padding(start = 16.dp, end = 8.dp),
                 text = stringResource(R.string.start_game),
                 onClick = {
                     when (gameViewModel.gameState.value) {
@@ -123,15 +129,16 @@ fun StartGameScreen(
                         }
                     }
                 })
-            IconButton(
-                modifier = Modifier.weight(1f),
+            FloatingActionButton(
+                containerColor = colorResource(id = R.color.red),
+                shape = RoundedCornerShape(100.dp),
                 onClick = {
                     isAddPlayerAlertShow.value = true
-                }) {
-                Icon(
-                    imageVector = Icons.Default.Add,
-                    contentDescription = "add player",
-                    tint = colorResource(id = R.color.red)
+                          },
+                modifier = Modifier.padding(end = 16.dp),
+            ) {
+                Icon(Icons.Outlined.Person,
+                    contentDescription = "add player"
                 )
             }
         }
@@ -146,7 +153,8 @@ fun AddPlayerChip(
     Row(
         modifier = Modifier
             .height(IntrinsicSize.Min)
-            .fillMaxWidth(),
+            .fillMaxWidth()
+            .padding(start = 8.dp),
         verticalAlignment = Alignment.CenterVertically
     ) {
         Box(
@@ -163,6 +171,7 @@ fun AddPlayerChip(
         Spacer(
             modifier = Modifier.weight(1f)
         )
+
         IconButton(
             onClick = {
                 onButtonClick(player)
@@ -234,11 +243,11 @@ fun TextRequestAlertDialog(
                     errorBorderColor = Color(R.color.colorPrimary),
                     focusedLabelColor = Color(R.color.back),
                     errorLabelColor = Color(R.color.back),
-                    ),
+                ),
                 modifier = Modifier
                     .focusable(true)
                     .focusTarget()
-                )
+            )
         },
         confirmButton = {
             Button(

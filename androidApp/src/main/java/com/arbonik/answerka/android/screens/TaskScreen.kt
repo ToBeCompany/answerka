@@ -121,7 +121,7 @@ fun PlayerChip(
             Row(
                 modifier = Modifier.padding(8.dp),
                 verticalAlignment = Alignment.CenterVertically,
-                horizontalArrangement = Arrangement.spacedBy(9.dp)
+                horizontalArrangement = Arrangement.spacedBy(8.dp)
             ){
                 Icon(
                     modifier = Modifier
@@ -140,7 +140,7 @@ fun PlayerChip(
                     fontWeight = FontWeight.Bold,
                     color = Color.White,
                     modifier = Modifier
-                        .padding(start = 8.dp, end = 8.dp)
+                        .padding(start = 0.dp, end = 8.dp)
                 )
             }
         }
