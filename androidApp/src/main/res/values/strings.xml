@@ -9,7 +9,7 @@
     <string name="select_players">Выберите тех, кто</string>
     <string name="done">Готово</string>
     <string name="player_name">Имя игрока</string>
-    <string name="add_player">Добавить игрока</string>
+    <string name="add_player">Новый игрок</string>
     <string name="start_game">Играть</string>
     <string name="key">Ключ</string>
     <string name="key_incorrected">Ключ некорректный</string>

@@ -67,7 +67,7 @@ fun MainButton(text: String, color: Int, function: () -> Unit) {
     OutlinedButton(
         onClick = function,
         modifier = Modifier
-            .padding(vertical = 8.dp)
+            .padding(vertical = 8.dp, horizontal = 16.dp)
             .fillMaxWidth()
             .height(68.dp),
         colors = ButtonDefaults.outlinedButtonColors(

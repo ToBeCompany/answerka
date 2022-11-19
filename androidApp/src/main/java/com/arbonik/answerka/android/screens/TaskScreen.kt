@@ -58,7 +58,7 @@ fun TaskScreen(
             contentAlignment = Alignment.Center,
             modifier = Modifier
                 .size(height = 72.dp, width = 128.dp)
-                .align(alignment = Alignment.CenterHorizontally)
+                .align(alignment = CenterHorizontally)
         ) {
             Image(
                 alignment = Alignment.CenterStart,
@@ -69,11 +69,9 @@ fun TaskScreen(
         }
         Box(
             contentAlignment = Alignment.Center,
-//            modifier = Modifier
-//                .fillMaxWidth()
         ){
             Text(
-                text = "Игроки:",
+                text = "Игроки",
                 fontSize = 26.sp,
                 color = Color.White,
                 fontWeight = FontWeight.Bold,
@@ -88,12 +86,19 @@ fun TaskScreen(
                     )
             }
         }
-        Column(horizontalAlignment = CenterHorizontally){
+        Column(
+            horizontalAlignment = CenterHorizontally,
+            modifier = Modifier.padding(top = 8.dp)
+        ) {
             Divider(color = colorResource(id = R.color.red), thickness = 2.dp,
                 modifier = Modifier.padding(horizontal = 8.dp)
             )
-            task?.let {
-                TaskView(task = it)
+            Box(
+                contentAlignment = Alignment.Center,
+            ) {
+                task?.let {
+                    TaskView(task = it)
+                }
             }
             Divider(color = colorResource(id = R.color.red), thickness = 2.dp,
                 modifier = Modifier.padding(horizontal = 8.dp))

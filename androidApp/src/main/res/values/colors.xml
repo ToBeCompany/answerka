@@ -2,7 +2,7 @@
 <resources>
     <color name="colorPrimary">#FB4B91</color>
     <color name="colorPrimaryDark">#212121</color>
-    <color name="colorAccent">#BA014A</color>
+    <color name="colorAccent">#FF05EDAB</color>
     <color name="chip_color">#ABEDF3</color>
     <color name="teal_200">#05EDAB</color>
     <color name="teal_700">#FF018786</color>

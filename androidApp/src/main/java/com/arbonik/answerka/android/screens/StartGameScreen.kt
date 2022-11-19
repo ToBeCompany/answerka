@@ -22,7 +22,6 @@ import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.text.KeyboardActions
 import androidx.compose.foundation.text.KeyboardOptions
-import androidx.compose.material.AlertDialog
 import androidx.compose.material.Button
 import androidx.compose.material.ButtonDefaults
 import androidx.compose.material.Icon
@@ -31,11 +30,10 @@ import androidx.compose.material.OutlinedTextField
 import androidx.compose.material.Text
 import androidx.compose.material.TextFieldDefaults
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.Add
 import androidx.compose.material.icons.filled.Close
 import androidx.compose.material.icons.outlined.Person
+import androidx.compose.material3.AlertDialog
 import androidx.compose.material3.FloatingActionButton
-import androidx.compose.material3.FloatingActionButtonDefaults.shape
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
@@ -50,9 +48,11 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalFocusManager
 import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
 import androidx.navigation.NavHostController
 import com.arbonik.answerka.android.R
 import com.arbonik.answerka.android.common.GreenStrokeButton
@@ -103,12 +103,12 @@ fun StartGameScreen(
         Spacer(modifier = Modifier.weight(1f))
         Row(
             verticalAlignment = Alignment.CenterVertically,
-            modifier = Modifier.padding(vertical = 16.dp)
+            modifier = Modifier.padding(vertical = 12.dp)
         ) {
             GreenStrokeButton(
                 modifier = Modifier
                     .weight(3f)
-                    .padding(start = 16.dp, end = 8.dp),
+                    .padding(start = 6.dp, end = 6.dp),
                 text = stringResource(R.string.start_game),
                 onClick = {
                     when (gameViewModel.gameState.value) {
@@ -138,7 +138,8 @@ fun StartGameScreen(
                 modifier = Modifier.padding(end = 16.dp),
             ) {
                 Icon(Icons.Outlined.Person,
-                    contentDescription = "add player"
+                    contentDescription = "add player",
+                    tint = colorResource(id = R.color.white)
                 )
             }
         }
@@ -166,12 +167,12 @@ fun AddPlayerChip(
         Text(
             modifier = Modifier.padding(start = 20.dp),
             text = player.name,
+            fontSize = 18.sp,
             color = colorResource(id = R.color.white)
         )
         Spacer(
             modifier = Modifier.weight(1f)
         )
-
         IconButton(
             onClick = {
                 onButtonClick(player)
@@ -213,12 +214,12 @@ fun TextRequestAlertDialog(
     var text by remember {
         mutableStateOf("")
     }
-
     AlertDialog(onDismissRequest = {
         onDialogClicked(null)
     },
+        containerColor = colorResource(id = R.color.colorPrimaryDark),
         title = {
-            Text(text = message)
+            Text(text = message, fontSize = 18.sp, color = colorResource(id = R.color.white))
         },
         text = {
             val focusManager = LocalFocusManager.current
@@ -231,18 +232,18 @@ fun TextRequestAlertDialog(
                 ),
                 value = text,
                 onValueChange = { text = it },
-                label = { Text(text = stringResource(R.string.player_name)) },
+                label = { Text(text = stringResource(R.string.player_name),color = colorResource(id = R.color.white)) },
                 isError = text.isEmpty(),
                 maxLines = 1,
                 singleLine = true,
+                textStyle = TextStyle(colorResource(id = R.color.white)),
                 colors = TextFieldDefaults.outlinedTextFieldColors(
-                    focusedBorderColor = Color(R.color.colorPrimary),
-                    unfocusedBorderColor = Color(R.color.colorPrimary),
-                    textColor = Color(R.color.back),
-                    cursorColor = Color(R.color.green),
-                    errorBorderColor = Color(R.color.colorPrimary),
-                    focusedLabelColor = Color(R.color.back),
-                    errorLabelColor = Color(R.color.back),
+                    focusedBorderColor = colorResource(id =R.color.colorPrimary),
+                    unfocusedBorderColor = colorResource(id =R.color.colorPrimary),
+                    cursorColor = colorResource(id =R.color.green),
+                    errorBorderColor = colorResource(id =R.color.red),
+                    focusedLabelColor = colorResource(id =R.color.white),
+                    errorLabelColor = colorResource(id =R.color.white),
                 ),
                 modifier = Modifier
                     .focusable(true)
@@ -251,7 +252,9 @@ fun TextRequestAlertDialog(
         },
         confirmButton = {
             Button(
-                modifier = Modifier.width(width = 420.dp),
+                modifier = Modifier
+                    .width(width = 420.dp)
+                    .padding(vertical = 6.dp),
                 border = BorderStroke(3.dp, color = colorResource(id = R.color.colorPrimary)),
                 shape = RoundedCornerShape(60),
                 colors = ButtonDefaults.buttonColors(
@@ -263,7 +266,9 @@ fun TextRequestAlertDialog(
                 content = {
                     Text(
                         text = "Добавить",
-                        color = Color.White
+                        fontSize = 18.sp,
+                        color = Color.White,
+                        modifier = Modifier.padding(vertical = 6.dp)
                     )
                 }
             )

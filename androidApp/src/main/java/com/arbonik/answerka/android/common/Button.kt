@@ -53,7 +53,7 @@ fun GreenStrokeButton(
         }
         Text(
             text = text,
-            fontSize =18.sp,
+            fontSize = 16.sp,
             color = Color.White
         )
     }
